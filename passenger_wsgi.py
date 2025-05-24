@@ -1,6 +1,7 @@
 import os
 import sys
 
+# WSGI
 
 sys.path.insert(0, "/home1/capitaln/dashboard.capitalnestgroup.com")
 
