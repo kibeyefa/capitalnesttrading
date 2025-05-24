@@ -171,9 +171,10 @@ class Trade(models.Model):
         Calculates the absolute profit/loss based on conclusion.
         """
         if self.conclusion == "profit":
-            return round(self.amount * (self.profit_margin / 10), 2)
+            return round(self.amount * (self.profit_margin / 10), 2) + self.amount
         elif self.conclusion == "loss":
-            return -round(self.amount * (self.profit_margin / 10), 2)
+            # return -round(self.amount * (self.profit_margin / 10), 2)
+            return -self.amount
         return 0.0  # Pending or unknown
 
     def __str__(self):
