@@ -26,3 +26,5 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),  # Allauth URLs
     path("", include("dashboard.urls")),
 ]
+
+handler404 = "dashboard.views.custom_404_view"
