@@ -8,7 +8,7 @@ from .models import Trade
 class TradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trade
-        fields = ["id", "amount", "duration"]
+        fields = ["id", "amount", "duration", "profit_margin"]
 
     def create(self, validated_data):
         request = self.context.get("request")
