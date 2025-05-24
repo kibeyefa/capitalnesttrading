@@ -1,8 +1,7 @@
-from hashlib import blake2s
-from pyexpat import model
 from django.db import models
 from django_extensions.db.fields import RandomCharField
 from django.contrib.auth import get_user_model
+from cloudinary.models import CloudinaryField
 
 User = get_user_model()
 
@@ -59,7 +58,7 @@ class Deposit(models.Model):
         ),
         default="pending",
     )
-    proof = models.ImageField(blank=True, null=True)
+    proof = CloudinaryField("image", folder="capitalnest/deposits/proofs")
     profile = models.ForeignKey(
         Profile, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -87,7 +86,7 @@ class Withdrawal(models.Model):
     bank_account = models.ForeignKey(
         BankAccount, on_delete=models.SET_NULL, blank=True, null=True
     )
-    proof = models.ImageField(blank=True, null=True)
+    proof = CloudinaryField("image", folder="capitalnest/withdrawal/proofs")
     wallet_type = models.CharField(
         max_length=255,
         choices=(

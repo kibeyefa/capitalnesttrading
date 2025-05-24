@@ -13,12 +13,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from urllib.parse import urlparse
+import cloudinary
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# settings.py
+
+
+cloudinary.config(
+    cloud_name="kibeyefa",
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "cloudinary",
     "whitenoise",
     "allauth",
     "allauth.account",
@@ -160,15 +172,15 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # or 'mandatory' or 'none'
 ACCOUNT_SIGNUP_FORM_CLASS = "dashboard.forms.CustomSignupForm"
 
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # for dev
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # for dev
 
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "mail.capitalnestgroup.com"
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "noreply@capitalnestgroup.com"  # Your Gmail address
-# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "mail.capitalnestgroup.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "noreply@capitalnestgroup.com"  # Your Gmail address
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Internationalization
@@ -197,6 +209,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Optional: Enables GZip compression & cache headers
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+CLOUDINARY_URL = (
+    "CLOUDINARY_URL=cloudinary://989999261163897:TxTZncScRbWmD-y7oIQbaJJAZUc@kibeyefa"
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
