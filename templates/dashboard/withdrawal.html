@@ -117,12 +117,12 @@
 
                 <select id="wallets" name="wallet_type" class="form-control form-select my-3" onchange="changeWallet()" required>
                   <option value="btc">BTC</option>
-                  <option value="usdt">USDT</option>
+                  <option value="usdt">USDT Trc20</option>
                   <option value="eth">ETH</option>
                 </select>
 
                 <div id="show-wallet">
-                  <div class="alert alert-success">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, aliquam.</div>
+                  <div class="alert alert-success"></div>
                 </div>
               </div>
               <div>
@@ -183,7 +183,7 @@
 
   <script>
     let selectWallet = document.getElementById('wallets')
-    let wallets = { btc: '0x----------', usdt: '0x1232430938367', eth: '0xkabciubc980y79g' }
+    let wallets = { btc: '0xbB703F1a7aCB6CC05C121CbDa533a625b69cA7d0', usdt: 'TDmQE6XmEqrnhCugBPiTQQWtWoyQ18nkm2', eth: '0xbB703F1a7aCB6CC05C121CbDa533a625b69cA7d0' }
     let show_wallet = document.getElementById('show-wallet')
     
     function changeWallet() {

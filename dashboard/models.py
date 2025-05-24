@@ -62,6 +62,15 @@ class Deposit(models.Model):
     profile = models.ForeignKey(
         Profile, on_delete=models.SET_NULL, null=True, blank=True
     )
+    wallet_type = models.CharField(
+        max_length=255,
+        choices=(
+            ("btc", "btc"),
+            ("usdt", "usdt"),
+            ("eth", "eth"),
+        ),
+        default="usdt",
+    )
     completed = models.BooleanField(default=False)
 
 
