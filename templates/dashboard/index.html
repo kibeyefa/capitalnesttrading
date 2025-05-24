@@ -1,0 +1,255 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}
+  <title>Dashboard | Capital Nest</title>
+{% endblock %}
+
+{% block main %}
+  <div>
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet Ballace</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800" id="balance">${{ profile.balance|floatformat:2 }}</div>
+                <span class="d-none" id="amount">{{ profile.balance|floatformat:2 }}</span>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Last Withdrawal</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  ${% if latest_withdrawal %}
+                    {{ latest_withdrawal.amount }} {% if latest_withdrawal.status == 'pending' %}
+                      <span class="badge badge-secondary">pending</span>
+                    {% endif %}
+                  {% else %}
+                    0.0
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Transactions</div>
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ total_transactions }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
+                {% comment %} <i class="fas-solid fa-money-bill-transfer fa-2x text-gray-300"></i> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Requests Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Deposits</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_deposits }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-comments fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow mb-4">
+          <div class="card-header">
+            <div class="col-md-2 live-forex-title">
+              <h6 class="m-0 font-weight-bold text-primary">Live Forex</h6>
+            </div>
+          </div>
+          <div class="col-md-12 p-0 tradeview_liv_price">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container" style="width: 100%; height: 50px;">
+              <iframe class="forex-slider" scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/ticker-tape/?locale=en#%7B%22symbols%22%3A%5B%7B%22proName%22%3A%22FX_IDC%3AEURUSD%22%2C%22title%22%3A%22EUR%2FUSD%22%7D%2C%7B%22proName%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22title%22%3A%22BTC%2FUSD%22%7D%2C%7B%22proName%22%3A%22BITSTAMP%3AETHUSD%22%2C%22title%22%3A%22ETH%2FUSD%22%7D%5D%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22displayMode%22%3A%22adaptive%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A46%2C%22utm_source%22%3A%22chainwavetrading.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22ticker-tape%22%2C%22page-uri%22%3A%22chainwavetrading.com%2Faccount%2Fdashboard%2Findex.php%22%7D" title="ticker tape TradingView widget" lang="en" style="user-select: none; box-sizing: border-box; display: block; width: 100%;"></iframe>
+
+              <style>
+                .tradingview-widget-copyright {
+                  font-size: 13px !important;
+                  line-height: 32px !important;
+                  text-align: center !important;
+                  vertical-align: middle !important;
+                  /* @mixin sf-pro-display-font; */
+                  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif !important;
+                  color: #b2b5be !important;
+                }
+                
+                .tradingview-widget-copyright .blue-text {
+                  color: #2962ff !important;
+                }
+                
+                .tradingview-widget-copyright a {
+                  text-decoration: none !important;
+                  color: #b2b5be !important;
+                }
+                
+                .tradingview-widget-copyright a:visited {
+                  color: #b2b5be !important;
+                }
+                
+                .tradingview-widget-copyright a:hover .blue-text {
+                  color: #1e53e5 !important;
+                }
+                
+                .tradingview-widget-copyright a:active .blue-text {
+                  color: #1848cc !important;
+                }
+                
+                .tradingview-widget-copyright a:visited .blue-text {
+                  color: #2962ff !important;
+                }
+              </style>
+            </div>
+            <!-- TradingView Widget END -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-9 col-lg-8">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Forex Chart</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body p-0">
+            <div class="chart-area">
+              <div class="tradingview-widget-container">
+                <div id="tradingview_eeb1c" style="min-height:600px !important; height:600px; width:100%">
+                  <div id="tradingview_66254-wrapper" style="position: relative; box-sizing: content-box; font-family: -apple-system, BlinkMacSystemFont, &quot;Trebuchet MS&quot;, Roboto, Ubuntu, sans-serif; margin: 0px auto !important; padding: 0px !important; width: 100%; height: 100%;">
+                    <iframe title="advanced chart TradingView widget" lang="en" id="tradingview_66254" frameborder="0" allowtransparency="true" scrolling="no" allowfullscreen="true" src="https://s.tradingview.com/widgetembed/?hideideas=1&amp;overrides=%7B%7D&amp;enabled_features=%5B%5D&amp;disabled_features=%5B%5D&amp;locale=en#%7B%22symbol%22%3A%22OANDA%3AEURUSD%22%2C%22frameElementId%22%3A%22tradingview_66254%22%2C%22interval%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22studies%22%3A%22BB%40tv-basicstudies%5Cu001fMASimple%40tv-basicstudies%5Cu001fRSI%40tv-basicstudies%22%2C%22theme%22%3A%22Dark%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Etc%2FUTC%22%2C%22withdateranges%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22chainwavetrading.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22OANDA%3AEURUSD%22%2C%22page-uri%22%3A%22chainwavetrading.com%2Faccount%2Fdashboard%2Findex.php%22%7D" style="width: 100%; height: 100%; margin: 0px !important; padding: 0px !important;"></iframe>
+                  </div>
+                </div>
+
+                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                <script type="text/javascript">
+                  new TradingView.widget({
+                    autosize: true,
+                    symbol: 'OANDA:EURUSD',
+                    interval: '1',
+                    timezone: 'Etc/UTC',
+                    theme: 'Dark',
+                    style: '1',
+                    locale: 'en',
+                    toolbar_bg: '#f1f3f6',
+                    enable_publishing: false,
+                    withdateranges: true,
+                    hide_side_toolbar: false,
+                    allow_symbol_change: true,
+                    studies: ['BB@tv-basicstudies', 'MASimple@tv-basicstudies', 'RSI@tv-basicstudies'],
+                    container_id: 'tradingview_eeb1c'
+                  })
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pie Chart -->
+      <div class="col-xl-3 col-lg-4">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Trade</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            {% comment %} <div class="chart-pie pt-4 pb-2">
+              <canvas id="myPieChart"></canvas>
+            </div> {% endcomment %}
+            <div class="mb-4">
+              <h6>Option type:</h6>
+              <select name="" id="" class="form-control form-select">
+                <option value="turbo">Turbo</option>
+                <option value="intraday">Intraday</option>
+                <option value="long-term">Long Term</option>
+              </select>
+            </div>
+            <div class="my-4">
+              <h6>Platform Time:</h6>
+              <p id="clock"></p>
+            </div>
+            <div>
+              <h6>Select duration:</h6>
+              <select id="durationSelect" class="form-control form-select">
+                <option value="1">1 Minute</option>
+                <option value="3">3 Minutes</option>
+                <option value="5">5 Minutes</option>
+                <option value="10">10 Minutes</option>
+                <option value="15">15 Minutes</option>
+                <option value="20">20 Minutes</option>
+                <option value="25">25 Minutes</option>
+                <option value="30">30 Minutes</option>
+              </select>
+            </div>
+            <div class="my-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 pb-0">Expiration Time:</h6>
+                <span id="timer" class="text-danger">00:00</span>
+              </div>
+            </div>
+            <div class="my-4">
+              <h6>Amount:</h6>
+              <input type="number" class="form-control" id="amountInput" />
+            </div>
+            <div class="my-4">
+              <strong>Current Profit Margin:</strong><br />
+              <h3 class="fs-1 text-success"><span id="profitMargin">--</span>%</h3>
+            </div>
+            <div>
+              <button class="btn btn-lg btn-success w-100 trading-btns" onclick="forexTrade()">Call</button>
+              <button class="btn btn-lg btn-danger w-100 mt-2" onclick="forexTrade()">Put</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

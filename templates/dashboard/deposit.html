@@ -1,0 +1,167 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}
+  <title>Profile | Capital Nest</title>
+{% endblock %}
+
+{% block main %}
+  <div>
+    <div class="row">
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet Ballace</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">${{ profile.balance|floatformat:2 }}</div>
+                <span class="d-none" id="amount">{{ profile.balance|floatformat:2 }}</span>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Last Withdrawal</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  ${% if latest_withdrawal %}
+                    {{ latest_withdrawal.amount }} {% if latest_withdrawal.status == 'pending' %}
+                      <span class="badge badge-secondary">pending</span>
+                    {% endif %}
+                  {% else %}
+                    0.0
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Transactions</div>
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ total_transactions }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
+                {% comment %} <i class="fas-solid fa-money-bill-transfer fa-2x text-gray-300"></i> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Requests Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Deposits</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_deposits }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-comments fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Pie Chart -->
+      <div class="col-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Make Deposit</h6>
+          </div>
+          <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <div class="row">
+                <div class="form-group col-lg-5 my-2">
+                  <label for="">Amount ($)</label>
+                  <input type="text" name="amount" class="form-control" required />
+                </div>
+                <div class="form-group col-lg-5 my-2">
+                  <label for="">Proof of payment</label>
+                  <input type="file" name="proof" class="form-file form-control" required />
+                </div>
+                <button class="btn btn-primary align-self-end flex-fill my-2">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Pie Chart -->
+      <div class="col-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Deposits</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Date</th>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% for deposit in deposits %}
+                    <tr>
+                      <td>{{ deposit.date }}</td>
+                      <td>{{ deposit.reference }}</td>
+                      <td>{{ deposit.amount }}</td>
+                      <td>{{ deposit.status }}</td>
+                      {% comment %} <td>$170,750</td> {% endcomment %}
+                    </tr>
+                  {% empty %}
+                    <h6>No transactions yet!</h6>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

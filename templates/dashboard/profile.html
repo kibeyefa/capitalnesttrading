@@ -1,0 +1,250 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}
+  <title>Profile | Capital Nest</title>
+{% endblock %}
+
+{% block main %}
+  <div>
+    <div class="row">
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet Ballace</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">${{ profile.balance|floatformat:2 }}</div>
+                <span class="d-none" id="amount">{{ profile.balance|floatformat:2 }}</span>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Last Withdrawal</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  ${% if latest_withdrawal %}
+                    {{ latest_withdrawal.amount }} {% if latest_withdrawal.status == 'pending' %}
+                      <span class="badge badge-secondary">pending</span>
+                    {% endif %}
+                  {% else %}
+                    0.0
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Transactions</div>
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ total_transactions }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
+                {% comment %} <i class="fas-solid fa-money-bill-transfer fa-2x text-gray-300"></i> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Requests Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Deposits</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_deposits }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-comments fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Profile</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-5">
+                  <label for="">First name</label>
+                  <input type="text" required name="first_name" value="{{ profile.first_name }}" class="form-control" />
+                </div>
+                <div class="col-lg-5">
+                  <label for="">Last name</label>
+                  <input type="text" required value="{{ profile.last_name }}" class="form-control" name="last_name" />
+                </div>
+                <button class="btn btn-primary align-self-end flex-fill">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pie Chart -->
+      <div class="col-12">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Wallets</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="my-2">
+              {% for wallet in wallets %}
+                <form action="/dashboard/wallets/{{ wallet.id }}/edit/" method="post">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-lg-5">
+                      <label for="">Wallet Name</label>
+                      <input type="text" class="form-control" required name="name" placeholder="Wallet name" value="{{ wallet.name }}" />
+                    </div>
+                    <div class="col-lg-5">
+                      <label for="">Wallet Address</label>
+                      <input type="text" class="form-control" required name="address" placeholder="Wallet address" value="{{ wallet.address }}" />
+                    </div>
+                    <button class="btn btn-success align-self-end flex-fill mx-md-2">Edit</button>
+                    <a href="/dashboard/wallets/{{ wallet.id }}/delete/" class="btn btn-danger align-self-end flex-fill mx-md-2">Delete</a>
+                  </div>
+                </form>
+              {% empty %}
+                <p>No wallets yet</p>
+              {% endfor %}
+            </div>
+            <hr class="my-4" />
+            <h6 class="my-3 font-weight-bold text-primary">Add new wallet</h6>
+            <form action="/dashboard/wallets/add/" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-5">
+                  <label for="">Wallet Name</label>
+                  <input type="text" class="form-control" required name="name" placeholder="Wallet name" />
+                </div>
+                <div class="col-lg-5">
+                  <label for="">Wallet Address</label>
+                  <input type="text" class="form-control" required name="address" placeholder="Wallet address" />
+                </div>
+                <button class="btn btn-primary align-self-end flex-fill">Add wallet</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {% comment %} <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Bank accounts</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <form action="/dashboard/bank-accounts/add/" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-4">
+                  <label for="">Bank Name</label>
+                  <input type="text" class="form-control my-1" name="bank_name" placeholder="Bank name" required />
+                </div>
+                <div class="col-lg-4">
+                  <label for="">Account number</label>
+                  <input type="text" class="form-control my-1" name="account_number" placeholder="Bank Account Number" required />
+                </div>
+                <div class="col-lg-2">
+                  <label for="">Bank Swiss Code</label>
+                  <input type="text" class="form-control my-1" name="swiss_code" placeholder="Bank Swiss Code" required />
+                </div>
+                <button type="submit" class="d-none d-lg-block btn btn-primary align-self-end col-2 my-1">Add account</button>
+              </div>
+              <div class="mt-2">
+                <label for="">Bank Location</label>
+                <textarea name="bank_location" id="" class="form-control" required placeholder="Bank Location"></textarea>
+              </div>
+              <button type="submit" class="d-lg-none btn btn-primary w-100 my-2">Add account</button>
+            </form>
+          </div>
+        </div>
+        {% endcomment %}
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Type date</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Type date</th>
+                    {% comment %} <th>Salary</th> {% endcomment %}
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% for transaction in transactions %}
+                    <tr>
+                      <td>{{ transaction.reference }}</td>
+                      <td>{{ transaction.date }}</td>
+                      <td>{{ transaction.description }}</td>
+                      <td>{{ transaction.amount }}</td>
+                      <td>{{ transaction.transaction_type }}</td>
+                      {% comment %} <td>$170,750</td> {% endcomment %}
+                    </tr>
+                  {% empty %}
+                    <h6>No transactions yet!</h6>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

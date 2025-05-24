@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+*.log
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.Python
+
+# Django stuff
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+local_settings.py
+*.pot
+*.pyc
+
+# VSCode and other IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Node stuff (if using)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# dotenv
+.env
+.env.*
+
+# Migrations (optional — only if you recreate them frequently)
+# **/migrations/*.py
+**/migrations/*.pyc
+
+# Coverage
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
