@@ -13,7 +13,7 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet Ballance</div>
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet Balance</div>
                 <div class="h5 mb-0 font-weight-bold text-gray-800">${{ profile.balance|floatformat:2 }}</div>
                 <span class="d-none" id="amount">{{ profile.balance|floatformat:2 }}</span>
               </div>
@@ -110,7 +110,7 @@
                   <label for="">Proof of payment</label>
                   <input type="file" name="proof" class="form-file form-control" required />
                 </div>
-                <button class="btn btn-primary d-none d-lg-block align-self-end flex-fill my-2">Save</button>
+                <button class="btn btn-primary d-none d-lg-block align-self-end flex-fill my-2">Deposit</button>
               </div>
               <div class="help-text text-danger">
                 <p>Select a wallet to deposit to, and attach a proof of payemnt</p>
@@ -125,7 +125,7 @@
                 </div>
               </div>
               <div>
-                <button class="d-lg-none btn btn-primary w-100">Withdraw</button>
+                <button class="d-lg-none btn btn-primary w-100">Deposit</button>
               </div>
             </form>
           </div>
