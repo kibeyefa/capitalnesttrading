@@ -164,9 +164,14 @@ class WithdrawalView(ProfileView):
         profile = Profile.objects.get(user=self.request.user)
         amount = self.request.POST.get("amount")
         proof = self.request.FILES.get("proof")
-        wallet_type = self.request.POST.get("wallet_type")
-        deposit = Withdrawal.objects.create(
-            profile=profile, amount=amount, proof=proof, wallet_type=wallet_type
+        wallet_type = self.request.POST.get("widthraw_to")
+        wallet = self.request.POST.get("withdrawal_address")
+        withdrawal = Withdrawal.objects.create(
+            profile=profile,
+            amount=amount,
+            proof=proof,
+            wallet_type=wallet_type,
+            wallet=wallet,
         )
         return redirect("/dashboard/withdraw/")
 

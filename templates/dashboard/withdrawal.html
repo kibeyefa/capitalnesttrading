@@ -113,13 +113,24 @@
 
                 <button class="btn btn-primary d-none d-lg-block align-self-end flex-fill my-2">Save</button>
               </div>
-              <hr />
+
               <div class="form-group">
                 <label for="">Withdraw to</label>
+                <div class="input-group">
+                  <select name="widthraw_to" id="" class="form-select form-control" style="max-width: 100px;" required>
+                    <option value="btc">BTC</option>
+                    <option value="usdt">USDT Trc20</option>
+                    <option value="eth">ETH</option>
+                  </select>
+                  <input type="text" class="form-control flex-fill" placeholder="Wallet Address" name="withdrawal_address" />
+                </div>
               </div>
-              <div class="help-text text-danger">
-                A processing fee of 20% of your withdrawal amount must be deposited before widthrawal can be approved. <br />
-
+              <hr class="my-4" />
+              <div class="">
+                <label for="">Deposit to</label>
+                <p class="help-text text-danger">
+                  A processing fee of 20% of your withdrawal amount must be deposited before widthrawal can be approved. <br />
+                </p>
                 <select id="wallets" name="wallet_type" class="form-control form-select my-3" onchange="changeWallet()" required>
                   <option value="btc">BTC</option>
                   <option value="usdt">USDT Trc20</option>
