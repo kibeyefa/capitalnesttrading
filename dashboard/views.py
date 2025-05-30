@@ -165,6 +165,7 @@ class WithdrawalView(ProfileView):
         amount = self.request.POST.get("amount")
         proof = self.request.FILES.get("proof")
         wallet_type = self.request.POST.get("widthraw_to")
+        print(wallet_type)
         wallet = self.request.POST.get("withdrawal_address")
         withdrawal = Withdrawal.objects.create(
             profile=profile,

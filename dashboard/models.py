@@ -91,7 +91,7 @@ class Withdrawal(models.Model):
     profile = models.ForeignKey(
         Profile, on_delete=models.SET_NULL, null=True, blank=True
     )
-    wallet = models.ForeignKey(Wallet, on_delete=models.SET_NULL, blank=True, null=True)
+    wallet = models.CharField(max_length=255, blank=True, null=True)
     bank_account = models.ForeignKey(
         BankAccount, on_delete=models.SET_NULL, blank=True, null=True
     )
