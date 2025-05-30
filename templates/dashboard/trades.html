@@ -102,31 +102,31 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Reference</th>
                     <th>Date</th>
-                    <th>Description</th>
+                    <th>Duration</th>
+                    <th>Status</th>
                     <th>Amount</th>
-                    <th>Type date</th>
+                    <th>Profit/Loss</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Reference</th>
                     <th>Date</th>
-                    <th>Description</th>
+                    <th>Duration</th>
+                    <th>Status</th>
                     <th>Amount</th>
-                    <th>Type date</th>
+                    <th>Profit/loss</th>
                     {% comment %} <th>Salary</th> {% endcomment %}
                   </tr>
                 </tfoot>
                 <tbody>
-                  {% for transaction in transactions %}
+                  {% for trade in trades %}
                     <tr>
-                      <td>{{ transaction.reference }}</td>
-                      <td>{{ transaction.date }}</td>
-                      <td>{{ transaction.description }}</td>
-                      <td>{{ transaction.amount }}</td>
-                      <td>{{ transaction.transaction_type }}</td>
+                      <td>{{ trade.created_at }}</td>
+                      <td>{{ trade.duration }}</td>
+                      <td>{{ trade.status }}</td>
+                      <td>{{ trade.amount }}</td>
+                      <td>{{ trade.conclusion }}</td>
                       {% comment %} <td>$170,750</td> {% endcomment %}
                     </tr>
                   {% empty %}

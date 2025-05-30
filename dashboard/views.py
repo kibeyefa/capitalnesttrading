@@ -171,6 +171,47 @@ class WithdrawalView(ProfileView):
         return redirect("/dashboard/withdraw/")
 
 
+class TradeListView(View):
+    template_name = "dashboard/trades.html"
+
+    def get(self, request):
+        user = self.request.user
+        profile = Profile.objects.get(user=user)
+        wallets = Wallet.objects.filter(profile=profile)
+        bank_accounts = BankAccount.objects.filter(profile=profile)
+        transactions = Transaction.objects.filter(profile=profile)
+        total_transactions = Transaction.objects.filter(profile=profile).count()
+        pending_deposits = Deposit.objects.filter(
+            profile=profile, status="pending"
+        ).count()
+        deposits = Deposit.objects.filter(profile=profile)
+        withdrawals = Withdrawal.objects.filter(profile=profile)
+        trades = Trade.objects.filter(profile=profile)
+        try:
+            latest_withdrawal = Withdrawal.objects.filter(profile=profile).latest(
+                "date"
+            )
+        except:
+            latest_withdrawal = None
+
+        return render(
+            request,
+            self.template_name,
+            dict(
+                profile=profile,
+                wallets=wallets,
+                bank_accounts=bank_accounts,
+                transactions=transactions,
+                pending_deposits=pending_deposits,
+                total_transactions=total_transactions,
+                latest_withdrawal=latest_withdrawal,
+                deposits=deposits,
+                withdrawals=withdrawals,
+                trades=trades,
+            ),
+        )
+
+
 class CustomLoginView:
     pass
 
